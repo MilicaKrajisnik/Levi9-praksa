@@ -1,20 +1,24 @@
 class SingupPage {
     elements = {
-        homepage: ()=> cy.visit(''),
-        loginButton: ()=> cy.get('.login'),
-        emailField: ()=> cy.get('#email_create'),
-        submitLogin: () => cy.get('#SubmitCreate > span'),
+        
+        emailCreateField: ()=> cy.get('#email_create'),
+        submitCreate: () => cy.get('#SubmitCreate > span'),
         createanaccountpage: ()=> cy.get('.page-heading'),
         yourpersonalinformatin: ()=> cy.get('.page-subheading'),
-        youradress: ()=> cy.get(':nth-child(2) > .page-subheading'),
+        youraddress: ()=> cy.get(':nth-child(2) > .page-subheading'),
         registerButton: ()=> cy.get('#submitAccount'),
         invalidEmailAddress: ()=> cy.get('#create_account_error'),
-        errorField: ()=> cy.get('.alert'),
+        alertField: ()=> cy.get('.alert'),
         customerFirstName: ()=> cy.get('#customer_firstname'),
         customerLastName: ()=> cy.get('#customer_lastname'),
         customerPassword: ()=> cy.get('#passwd'),
         address1: ()=> cy.get('#address1'),
-        cityField: ()=> cy.get('#city')
+        cityField: ()=> cy.get('#city'),
+        countryField: ()=> cy.get('#id_state'),
+        postalCodeField: ()=> cy.get('#postcode'),
+        mobilePhoneField: ()=> cy.get('#phone_mobile'),
+
     };
+
   }
   export = new SingupPage();

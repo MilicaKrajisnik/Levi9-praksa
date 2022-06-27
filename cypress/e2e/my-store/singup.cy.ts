@@ -2,69 +2,82 @@
 
 import singuppage=require('../../page-objects/singup.page')
 
-function singup (email:string){
+import loginpage=require('../../page-objects/login.page')
 
-    cy.get('#email_create').type(email)
-    cy.get('#SubmitCreate > span').click()
+let randomstring = require("randomstring");
+
+let emailFirstPart = randomstring.generate({
+  length: 7,
+  charset: 'abc'
+});
+// >> "accbaab"
+
+
+let randomEmail = emailFirstPart + "@gmail.com"
+
+
+function singup (randomEmail:string) {
+  
+    singuppage.elements.emailCreateField().type(randomEmail)
+    singuppage.elements.submitCreate().click()
 }
 
 describe('Singup Test', ()=> {
 
     beforeEach(() => {
         
-    singuppage.elements.homepage()
-    singuppage.elements.loginButton().click()
+        loginpage.homepageStart()
 
       })
 
 
-    it('test singup functionality with invalid email domain', function (){
+    it('should not be redirected to create an account page', function (){
 
         singup ('abc@abc')
 
-        cy.get('#create_account_error').should('contain', 'Invalid email address.')
+        singuppage.elements.invalidEmailAddress().should('contain', 'Invalid email address.')
 
     })
 
 
-    it('test singup functionality without entering mandatory fields', function (){
+    it('should not singup', function (){
 
-        singup ('ljubica@gmail.com')
+        singup (randomEmail)
 
-        cy.get('#submitAccount').click()
-        cy.get('.alert').should('contain', 'There are 8 errors')
+        singuppage.elements.registerButton().click()
+        singuppage.elements.alertField().should('contain', 'There are 8 errors')
 
     })
 
-    it(' should ***test first name, last name and password length validation', function (){
+    it(' should show red text box borders', function (){
 
-        singup ('ljubica@gmail.com')
+        singup (randomEmail)
 
-        cy.get('#customer_firstname').type('abc123')
-        cy.get('#customer_lastname').type('abc123')
-        cy.get('#passwd').type('1234') // In password field enter 4 or less characters
+        singuppage.elements.customerFirstName().type('abc123')
+        singuppage.elements.customerLastName().type('abc123')
+        singuppage.elements.customerPassword().type('1234') // In password field enter 4 or less characters
         //Result is as expected, text box borders become red after entering invalid form
 
     })
 
-    it('test first name, last name and password length validation', function (){
+    it('should show green text box borders', function (){
 
-        singup ('ljubica@gmail.com')
+        singup (randomEmail)
 
-        cy.get('#address1').type('123')
-        cy.get('#city').type('123')
+        singuppage.elements.address1().type('123')
+        singuppage.elements.cityField().type('123')
         // bug, there is no message for entering invalid forms in Address and City fields
 
     })
 
-    it('user should singup', function (){
+    it('should singup', function (){
 
-        singup ('ljubica@gmail.com')
+        singup (randomEmail)
 
-        cy.get('.page-heading').should('contain', 'Create an account')
-        cy.get('.page-subheading').should('contain', 'Your personal information')
-        cy.get(':nth-child(2) > .page-subheading').should('contain', 'Your address')
-        cy.get('#submitAccount').should('contain', 'Register')
+        singuppage.elements.createanaccountpage().should('contain', 'Create an account')
+        singuppage.elements.yourpersonalinformatin().should('contain', 'Your personal information')
+        singuppage.elements.youraddress().should('contain', 'Your address')
+        singuppage.elements.registerButton().should('contain', 'Register')
 
         singuppage.elements.customerFirstName().type('Milica')
         singuppage.elements.customerLastName().type('Krajisnik')
@@ -72,9 +85,9 @@ describe('Singup Test', ()=> {
         singuppage.elements.address1().type('Nikole Tesle')
         singuppage.elements.cityField().type('Novi Sad')
         
-        cy.get('#id_state').select('Arizona')
-        cy.get('#postcode').type('21000')
-        cy.get('#phone_mobile').type('0123456789')
+        singuppage.elements.countryField().select('Arizona')
+        singuppage.elements.postalCodeField().type('21000')
+        singuppage.elements.mobilePhoneField().type('0123456789')
 
         singuppage.elements.registerButton().click()
         

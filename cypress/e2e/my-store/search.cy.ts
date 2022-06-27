@@ -2,28 +2,23 @@
 
 import searchpage = require("../../page-objects/search.page")
 
-function searchField (search:string) {
-    searchpage.elements.searchField().type(search),
-    searchpage.elements.searchButton().click()
-    searchpage.elements.searchResultPage()
+import loginpage = require("../../page-objects/login.page")
 
-}
+
 
 describe ('Search field Test', ()=>{
 
     beforeEach(()=>{
 
-        searchpage.elements.homepage()
-        searchpage.elements.loginButton().click()
-        searchpage.elements.emailField().type('peradetlic095@gmail.com')
-        searchpage.elements.passwordField().type('98765')
-        searchpage.elements.submitLogin().click()
+        loginpage.homepageStart()
+
+        loginpage.login ('peradetlic095@gmail.com', '12345');
 
     })
 
     it('user should be redirected to search results page when enters keyword in search field and clicks search button', ()=>{
         
-        searchField ('dress')
+        searchpage.searchField ('dress')
 
         searchpage.elements.searchResultPage().should('contain', 'Search').and('contain', 'dress')
 
@@ -40,7 +35,7 @@ describe ('Search field Test', ()=>{
 
     it('user should be redirected to search results page with message no results were found for your search camera', ()=>{
 
-        searchField ('camera')
+        searchpage.searchField ('camera')
 
         searchpage.elements.searchResultPage().should('contain', 'Search').and('contain', 'dress')
 
@@ -50,7 +45,7 @@ describe ('Search field Test', ()=>{
 
     it('user should be  redirected to search results page with message please enter a search keyword', ()=>{
 
-        searchField (' ')
+        searchpage.searchField (' ')
 
         searchpage.elements.errorMessageField()
 
@@ -58,20 +53,20 @@ describe ('Search field Test', ()=>{
 
     it('user should be redirected to the search results page and results should be displayed relevant to the search keyword', ()=>{
         
-        searchField ('shi')
+        searchpage.searchField ('shi')
 
     })
 
     it('user should be redirected to the results page with error message when enters word in different language', ()=>{
 
-        searchField ('haljina')
+        searchpage.searchField ('haljina')
         searchpage.elements.errorMessageField()
 
     })
 
     it('user should be redirected to the results page and results should be displayed relevant to the search keywords', ()=>{
 
-        searchField ('dress and shirts')
+        searchpage.searchField ('dress and shirts')
 
         searchpage.elements.productList()
         searchpage.elements.productDetails()

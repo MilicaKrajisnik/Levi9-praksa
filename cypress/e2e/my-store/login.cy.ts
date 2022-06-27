@@ -6,82 +6,76 @@ describe('Login Test', ()=> {
 
     beforeEach(() => {
         
-    cy.visit('')
-    loginpage.elements.loginButton().click()
+    loginpage.homepageStart()
 
       })
 
 it('login test with valid email and password', () => {
 
-    login ('peradetlic095@gmail.com', "98765")
+    loginpage.login ('peradetlic095@gmail.com', "12345")
 
-    cy.get('.logout').should('contain', 'Sign out')
-    cy.get('.account > span').should('contain', 'Petar Perovic')
-    cy.get(':nth-child(1) > .myaccount-link-list > :nth-child(1) > a > span').should('contain', 'Order history and details')
-    cy.get('.myaccount-link-list > :nth-child(2) > a > span').should('contain', 'My credit slips')
-    cy.get('.myaccount-link-list > :nth-child(3) > a > span').should('contain', 'My addresses')
-    cy.get('.myaccount-link-list > :nth-child(4) > a > span').should('contain', 'My personal information')
-    cy.get('.lnk_wishlist > a > span').should('contain', 'My wishlists')
+    loginpage.elements.logoutButton().should('contain', 'Sign out')
+    loginpage.elements.orderHistoryAndDetailsButton().should('contain', 'Order history and details')
+    loginpage.elements.myCreditSlipsButton().should('contain', 'My credit slips')
+    loginpage.elements.myAddressesButton().should('contain', 'My addresses')
+    loginpage.elements.myPersonalInformationButton().should('contain', 'My personal information')
+    loginpage.elements.myWishListButton().should('contain', 'My wishlists')
     })
 
 
 it('login functionality test with unregistred email', function() {
 
-    login ('milica@gmail', '98765')
+    loginpage.login ('milicaa@gmail', '98765')
 
-    cy.get('#center_column > :nth-child(2)')
-    cy.get('ol > li').should('contain', 'Invalid email address')
+    loginpage.elements.errorField()
+    loginpage.elements.errorMessage().should('contain', 'Invalid email address')
 })
 
 
 it('login functionality test with valid email and invalid password', function(){
     
-    login ('peradetlic095@gmail.com', '12345')
+    loginpage.login ('peradetlic095@gmail.com', '45654')
 
-    cy.get('#center_column > :nth-child(2)')
-    cy.get('ol > li').should('contain', 'Authentication failed')
+    loginpage.elements.errorField()
+    loginpage.elements.errorMessage().should('contain', 'Authentication failed')
 
 })
 
 it('login functionality test with leaving email field blank', function(){
 
-    login ('  ', '12345')
+    loginpage.login ('  ', '12345')
 
-    cy.get('#center_column > :nth-child(2)')
-    cy.get('ol > li').should('contain', 'An email address required')
+    loginpage.elements.errorField()
+    loginpage.elements.errorMessage().should('contain', 'An email address required')
 
 })
 
 it('login functionality test with leaving password field blank', function(){
 
-    login ('peradetlic095@gmail', ' ') 
+    loginpage.elements.emailField().type('peradetlic095@gmail.com'),
+    loginpage.elements.submitLogin().click()
 
-    cy.get('#center_column > :nth-child(2)')
+    loginpage.elements.errorField()
+    loginpage.elements.errorMessage().should('contain', 'Password is required.')
 
 })
 
 
 it('login functionality test with all fields blank', function(){
 
-    cy.get('#SubmitLogin > span').click()
+    loginpage.elements.submitLogin().click()
 
-    cy.get('#center_column > :nth-child(2)')
-    cy.get('ol > li').should('contain', 'An email address required')
+    loginpage.elements.errorField()
+    loginpage.elements.errorMessage().should('contain', 'An email address required')
 })
 
 
 it('login functionality test with unregistred email', function() {
 
-    login ('abc@abc', '98765')
+    loginpage.login ('abc@abc', '12345')
 
-    cy.get('#center_column > :nth-child(2)')
-    cy.get('ol > li').should('contain', 'Invalid email address')
+    loginpage.elements.errorField()
+    loginpage.elements.errorMessage().should('contain', 'Invalid email address')
 })
 
 });
-
-function login (email:string, password:string) {
-    cy.get('#email').type(email)
-    cy.get('#passwd').type(password)
-    cy.get('#SubmitLogin > span').click()
-}
