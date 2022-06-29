@@ -65,8 +65,8 @@ it('login functionality test with all fields blank', function(){
 
     loginpage.elements.submitLogin().click()
 
-    loginpage.elements.errorField()
-    loginpage.elements.errorMessage().should('contain', 'An email address required')
+    loginpage.elements.errorField().should('contain', 'An email address required')
+    
 })
 
 

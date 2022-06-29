@@ -22,7 +22,8 @@ class MyAccountPage {
         confirmationField: ()=> cy.get('#confirmation'),
         personalInformationSubmitButton: ()=> cy.get(':nth-child(11) > .btn > span'),
         singOutButton: ()=> cy.get('.logout'),
-        messageField: ()=>cy.get('.alert')
+        messageField: ()=>cy.get('.alert'),
+        personalInformationList: ()=> cy.get('.last_item')
       
     };
 

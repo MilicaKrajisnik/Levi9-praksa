@@ -24,6 +24,9 @@ describe ('My account page test', ()=> {
         myaccountpage.elements.updateButton().click();
         myaccountpage.elements.myAddress1Field().clear().type('Svetosavska');
         myaccountpage.elements.submitAddressButton().click();
+        myaccountpage.elements.backToMyAccountButton().click();
+        myaccountpage.elements.myAddressesButton().click();
+        myaccountpage.elements.personalInformationList().should('contain', 'Svetosavska')
 
     })
 
@@ -31,6 +34,9 @@ describe ('My account page test', ()=> {
     it('should be able to delete address', ()=>{
         myaccountpage.elements.myAddressesButton().click();
         myaccountpage.elements.myAddressDeleteButton().click();
+
+        myaccountpage.elements.messageField().should('contain', 'No addresses are available')
+        
         myaccountpage.elements.addNewAddress().click();
         myaccountpage.elements.myAddress1Field().type('Svetosavska');
         myaccountpage.elements.cityField().type('Novi Sad');
@@ -39,6 +45,9 @@ describe ('My account page test', ()=> {
         myaccountpage.elements.mobilePhoneField().type('123456789');
         myaccountpage.elements.submitAddressButton().click();
         myaccountpage.elements.backToMyAccountButton().click();
+
+        myaccountpage.elements.myAddressesButton().click();
+        myaccountpage.elements.personalInformationList().should('contain', 'Svetosavska')
 
     })
 
@@ -53,10 +62,7 @@ describe ('My account page test', ()=> {
         myaccountpage.changePersonalInformation('Milica', 'Krajisnik', '98765', '12345', '12345');
 
         myaccountpage.elements.messageField().should('contain', 'Your personal information has been successfully updated')
-
-
+        
     })
-
-
 
 })

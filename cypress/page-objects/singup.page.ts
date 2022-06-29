@@ -17,6 +17,7 @@ class SingupPage {
         countryField: ()=> cy.get('#id_state'),
         postalCodeField: ()=> cy.get('#postcode'),
         mobilePhoneField: ()=> cy.get('#phone_mobile'),
+        accountButton: ()=> cy.get('.account'),
 
     };
 

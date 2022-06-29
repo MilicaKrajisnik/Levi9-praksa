@@ -12,11 +12,15 @@ class ShoppingChartPage {
         continueShoppingButton2: ()=> cy.get('.button-exclusive'),
         alert: ()=> cy.contains('Your shopping cart is empty.'),
         quantityPlusButton: ()=> cy.get('.icon-plus'),
-        quantityBox: ()=> cy.get('.cart_quantity_input'),
+        quantityBox: ()=> cy.get('.cart_quantity.text-center'),
+        boxInputQuantity: ()=> cy.get('.cart_quantity_input'),
         quantityMinusButton: ()=> cy.get('.icon-minus'),
         deleteButton: ()=> cy.get('.icon-trash'),
-        totalPriceField: ()=> cy.get('#total_price_container'),
+        totalField: ()=> cy.get('#total_price_container'), 
         accountButtonHomePage: ()=> cy.get('.account > span'),
+        itemName: ()=> cy.get('h1'),
+        productDescription: ()=> cy.get('#product_5_23_0_714843 > .cart_description'),
+        totalProducts: ()=> cy.get(':nth-child(1) > .text-right')
        
     };
 
@@ -30,6 +34,7 @@ class ShoppingChartPage {
 
         cy.get(':nth-child(1) > .product-container > .left-block > .product-image-container').click();
         cy.get('#columns');
+        cy.get('h1').should('contain', 'Printed Summer Dress')
         cy.get('#group_1').select('M');
         cy.get('#color_16').click(),
         cy.get('.exclusive > span').click(),

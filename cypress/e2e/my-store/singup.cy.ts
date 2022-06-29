@@ -56,6 +56,10 @@ describe('Singup Test', ()=> {
         singuppage.elements.customerFirstName().type('abc123')
         singuppage.elements.customerLastName().type('abc123')
         singuppage.elements.customerPassword().type('1234') // In password field enter 4 or less characters
+
+        singuppage.elements.customerFirstName().should('have.css', 'background-color', 'rgb(255, 241, 242)')
+        singuppage.elements.customerLastName().should('have.css', 'background-color', 'rgb(255, 241, 242)')
+
         //Result is as expected, text box borders become red after entering invalid form
 
     })
@@ -66,6 +70,9 @@ describe('Singup Test', ()=> {
 
         singuppage.elements.address1().type('123')
         singuppage.elements.cityField().type('123')
+
+        singuppage.elements.address1().wrap({ amount: 123 }).should('have.property', 'amount').and('eq', 123)
+        singuppage.elements.cityField().wrap({ amount: 123 }).should('have.property', 'amount').and('eq', 123)
         // bug, there is no message for entering invalid forms in Address and City fields
 
     })
@@ -91,6 +98,8 @@ describe('Singup Test', ()=> {
 
         singuppage.elements.registerButton().click()
         
+        singuppage.elements.accountButton().should('contain', 'Milica Krajisnik')
+
     })
 
 
